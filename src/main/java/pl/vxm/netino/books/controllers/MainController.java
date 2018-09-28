@@ -18,10 +18,7 @@ import pl.vxm.netino.books.repository.PersonRepository;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.TreeSet;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -134,8 +131,17 @@ public class MainController {
 
 
     @GetMapping("/borroweds")
-    public String borroweds (Model model) {
-        List<Borrowed> borroweds = borrowedRepository.findAllByReturnedFalse();
+    public String borroweds (Model model, char time) {
+
+        LocalDate today = LocalDate.now();
+        Date sqlDate = Date.valueOf(today.minusDays(30));
+        List<Borrowed> borroweds;
+        model.addAttribute("sqlDate", sqlDate);
+        switch (time){
+            case '1': borroweds = borrowedRepository.findByDateBorrowingAfterAndReturnedFalse(sqlDate); break;
+            case '0': borroweds = borrowedRepository.findByDateBorrowingBeforeAndReturnedFalse(sqlDate);  break;
+            default: borroweds = borrowedRepository.findAllByReturnedFalse(); break;
+        }
         TreeSet<String> categories;
         categories=categories();
         List books =new ArrayList();
