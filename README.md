@@ -11,6 +11,7 @@ It shows the history of loans for each person and who is behind the return (hold
 Spring Data<br>
 Spring Boot<br>
 Java 8<br>
+Maven<br>
 MySql<br>
 Thymeleaf<br>
 Bootstrap
